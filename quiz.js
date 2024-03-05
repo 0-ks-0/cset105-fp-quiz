@@ -1,4 +1,4 @@
-import { Helper } from "./JSModules/helper"
+import { Helper } from "./JSModules/helper.js"
 
 export class Question
 {
