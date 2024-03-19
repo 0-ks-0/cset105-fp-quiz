@@ -7,50 +7,50 @@ const builder = new DOMBuilder()
 const helper = new Helper()
 const quiz = new Quiz()
 
+// --------------------------------------------------------
+// Questions
+/*
+quiz.addQuestion(new Question("", {
+	"": false,
+	"": false,
+	"": false,
+	"": false
+}))
+*/
+
+quiz.addQuestion(new Question("What does “www” stand for in a website browser?", {
+	"World Wide Web": true,
+	"Warm Winter Wishses": false,
+	"World Wide Waiting": false,
+	"World War Wan": false
+}))
+
+quiz.addQuestion(new Question("How long is an Olympic swimming pool (in meters)?", {
+	"200": false,
+	"50": true,
+	"25": false,
+	"100": false
+}))
+
+quiz.addQuestion(new Question("Which country do cities of Perth, Adelade & Brisbane belong to?", {
+	"Austrialia": true,
+	"Germany": false,
+	"Canada": false,
+	"United Kingdom": false
+}))
+
+quiz.addQuestion(new Question("What geometric shape is generally used for stop signs?", {
+	"Nanogon": false,
+	"Decagon": false,
+	"Octagon": true,
+	"Hexagon": false
+}))
+
+// --------------------------------------------------------
 
 
 /////////////////////////////////////////////////////
 helper.hookEvent(window, "load", false, () =>
 {
-	builder.start()
-	{
-		// Form
-		builder.startElement("form")
-		{
-			builder.setAttribute("id", "form")
-			builder.setAttribute("class", "glassmorphism")
-			builder.setAttribute("onsubmit", "return false")
 
-
-			// Question
-			builder.startElement("h3")
-			{
-				builder.setAttribute("id", "question")
-				builder.setProperty("innerHTML", "1)")
-				builder.setAttribute("class", "glassmorphism")
-
-			}
-			builder.endElement()
-
-			// Options
-			builder.startElement("div")
-			{
-				builder.setAttribute("id", "options")
-				builder.setAttribute("class", "glassmorphism")
-
-			}
-			builder.endElement()
-
-			// Submit button
-			builder.startElement("input")
-			{
-				builder.setAttribute("type", "submit")
-				builder.setAttribute("id", "submit_btn")
-				builder.setAttribute("class", "glassmorphism")
-			}
-			builder.endElement()
-		}
-		builder.endElement()
-	}
-	builder.end()
 })
