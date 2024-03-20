@@ -5,7 +5,7 @@ export class Question
 	/**
 	 *
 	 * @param {string} display The question to be displayed
-	 * @param {Object} options The options to the question
+	 * @param {object} options The options to the question
 	 */
 	constructor(display, options)
 	{
@@ -25,7 +25,7 @@ export class Question
 
 	/**
 	 *
-	 * @returns {Object} The options
+	 * @returns {object} The options
 	 */
 	getOptions()
 	{
@@ -34,8 +34,8 @@ export class Question
 
 	/**
 	 * Checks if the selected option is correct or not
-	 * @param {String} answer The selected option
-	 * @returns {Boolean} true if the selected option is correct, false otherwise
+	 * @param {string} answer The selected option
+	 * @returns {boolean} true if the selected option is correct, false otherwise
 	 */
 	testAnswer(answer)
 	{
@@ -59,7 +59,6 @@ export class Quiz
 	* Getters
 	*/
 
-
 	/**
 	 * Gets the list of questions
 	 * @param {boolean} [isShuffled=false] Whether to return a shuffled order of questions or not. false by default
@@ -75,7 +74,6 @@ export class Quiz
 
 		return this.shuffledQuestions
 	}
-
 
 	/**
 	 *
@@ -96,6 +94,19 @@ export class Quiz
 		return this.questions.indexOf(question) + 1
 	}
 
+	/**
+	 * Returns the question objected corresponding to the question number in the questions array
+	 * @param {number} num The question number
+	 * @param {boolean} [isShuffled=false]
+	 * @returns {Question} The question object
+	 */
+	getQuestionObject(num, isShuffled = false)
+	{
+		if (!isShuffled || !isthis.shuffledQuestions)
+			return this.questions[num - 1]
+
+		return this.shuffledQuestions[num - 1]
+	}
 
 	/*
 	* Setters
