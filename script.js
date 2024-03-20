@@ -65,7 +65,7 @@ function loadQuestion(question)
 	questionHeader.innerHTML += question.getQuestion()
 
 	// sets up the options
-	/** @type {Object} options object */
+	/** @type {object} options object */
 	const optionsObj = question.getOptions()
 
 	/** @type {Array} keys to the options object */
@@ -104,8 +104,109 @@ function loadQuestion(question)
 	}
 }
 
+/**
+ * Removes all the options from the question
+ */
+function clearOptions()
+{
+	const divs = document.querySelectorAll(".option_div")
+
+	if (!divs) return
+
+	for (const div of divs)
+		div.remove()
+}
+
+/**
+ *
+ * @param {object} radios The group of radios to check
+ * @returns {boolean} true if a radio has been checked. false otherwise
+ */
+function isAnswered(radios)
+{
+	for (const radio of radios)
+	{
+		if (radio.checked)
+			return true
+	}
+	return false
+}
+
+/**
+ * Submits the answer to the current question
+ *
+ * Checks the correctness of the answer and loads the next question
+ * @param {Question} question
+ */
+const submitAnswer = (question) =>
+{
+	const radios = document.querySelectorAll("#form input")
+
+	if (!radios) return
+
+	// forces the user to select an answer. Otherwise, the next question will not load
+		if (!isAnswered(radios))
+		{
+			alert("Please select an option")
+			return
+		}
+
+	// gets the selected option and increments score if selected option is correct
+		for (const radio of radios)
+		{
+			if (radio.checked)
+			{
+				const selectedAnswer = radio.value
+
+				if (question.testAnswer(selectedAnswer))
+					quiz.incrementScore()
+			}
+		}
+
+	clearOptions()
+
+	// loads the next question if there are still questions. otherwise, displays the final score
+		const questionNum = quiz.getQuestionNumber(question)
+
+		if (questionNum == questions.length)
+		{
+			alert(`You scored ${quiz.getScore()}/${questions.length} or ${(quiz.getScore() / questions.length * 100).toFixed(2)}%`)
+			window.location.reload()
+		}
+
+		else
+		{
+			loadQuestion(questions[questionNum])
+		}
+}
+
 /////////////////////////////////////////////////////
 helper.hookEvent(window, "load", false, () =>
 {
 	loadQuestion(questions[0])
+
+	const form = document.querySelector("#form")
+
+	if (!form) return
+
+	form.onsubmit = (event) =>
+	{
+		if (!event || !event.target) return
+
+		const questionElement = event.target.childNodes[1]
+
+		if (questionElement.id != "question") return
+
+		// gets the question number
+			const questionNum = questionElement.innerHTML.substring(0, questionElement.innerHTML.indexOf(")"))
+
+			if (!questionNum) return
+
+		// gets the question object using the question number
+			const questionObj = quiz.getQuestionObject(questionNum)
+
+		submitAnswer(questionObj)
+
+		return false
+	}
 })
